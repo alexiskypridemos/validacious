@@ -56,8 +56,6 @@ class Tasks extends Trongate {
      */
     public function submit(): void {
         $this->trongate_security->make_sure_allowed();
-
-        $this->validation->reset_language();
         $this->validation->set_rules('task_title', 'task title', 'required|min_length[5]|max_length[55]|callback_title_check');
         $this->validation->set_rules('description', 'description', 'required|min_length[3]');
 
