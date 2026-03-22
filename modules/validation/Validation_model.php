@@ -379,7 +379,7 @@ class Validation_model extends Model {
         return (defined('VALIDATION_LANG')) ? VALIDATION_LANG : 'en';
     }
 
-    private function load_validation_language(string $lang): void {
+    public function load_validation_language(string $lang): void {
         $path = APPPATH . 'modules/validation/language/' . $lang . '/validation_errors.php';
         
         if (!file_exists($path)) {
@@ -387,7 +387,7 @@ class Validation_model extends Model {
         }
 
         if (file_exists($path)) {
-            require_once $path;
+            require $path;
             $this->validation_error_messages = $validation_errors ?? [];
         }
     }

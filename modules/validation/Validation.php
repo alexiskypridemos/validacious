@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Validation Class
  *
@@ -13,12 +14,13 @@ class Validation extends Trongate {
 
     public function __construct(?string $module_name = null, ?object $caller = null) {
         parent::__construct($module_name);
-        $this->caller = $caller; 
+        $this->caller = $caller;
         block_url('validation');
     }
 
     public function set_language(string $lang): void {
         $_SESSION['validation_lang'] = $lang;
+        $this->model->load_validation_language($lang);
     }
 
     /**
@@ -61,13 +63,13 @@ class Validation extends Trongate {
         foreach ($tests_to_run as $test_to_run) {
             $validation_data['test_to_run'] = $test_to_run;
             $this->run_validation_test($validation_data);
-            
+
             // EARLY EXIT: If an error was added for this field, stop processing further rules
             if (isset($this->form_submission_errors[$key])) {
                 break;  // Stop processing more rules for this field
             }
         }
-        
+
         $_SESSION['form_submission_errors'] = $this->form_submission_errors;
     }
 
@@ -92,7 +94,7 @@ class Validation extends Trongate {
         // Handle Callbacks
         if (str_starts_with($method, 'callback_')) {
             $callback_method = str_replace('callback_', '', $method);
-            
+
             if (isset($this->caller) && method_exists($this->caller, $callback_method)) {
                 $result = $this->caller->$callback_method($validation_data['posted_value']);
 
@@ -136,8 +138,8 @@ class Validation extends Trongate {
      */
     private function csrf_block_request(): void {
         // Check if this is an AJAX/API request (XML HTTP Request)
-        $is_ajax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-                    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+        $is_ajax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 
         if ($is_ajax) {
             // Return 403 Forbidden for API/AJAX requests
@@ -197,14 +199,14 @@ class Validation extends Trongate {
 
     public function display_errors($first_arg = null, $closing_html = null): ?string {
         $render_type = $this->get_render_type($first_arg, $closing_html);
-        
+
         if ($render_type === 'null') {
             return null;
         }
 
         $form_submission_errors = $_SESSION['form_submission_errors'];
-        
-        return match($render_type) {
+
+        return match ($render_type) {
             'json'     => $this->json_validation_errors($form_submission_errors, $first_arg),
             'inline'   => $this->inline_validation_errors($form_submission_errors, $first_arg),
             'standard' => $this->general_validation_errors($form_submission_errors, $first_arg, $closing_html),
@@ -215,7 +217,7 @@ class Validation extends Trongate {
         http_response_code($http_code);
         header('Content-Type: application/json');
         echo json_encode($errors);
-        
+
         // RENDERED = DELETED
         // unset($_SESSION['form_submission_errors']);
         // die();
@@ -246,16 +248,16 @@ class Validation extends Trongate {
     private function general_validation_errors(array $errors, ?string $open = null, ?string $close = null): string {
         $open  = $open ?? (defined('ERROR_OPEN') ? ERROR_OPEN : '<li>');
         $close = $close ?? (defined('ERROR_CLOSE') ? ERROR_CLOSE : '</li>');
-        
+
         $items = '';
         foreach ($errors as $field_errors) {
             foreach ($field_errors as $error) {
                 $items .= $open . out($error) . $close;
             }
         }
-        
+
         $html = '<ul class="validation-errors validation-errors--summary">' . $items . '</ul>';
-        
+
         // RENDERED = DELETED
         unset($_SESSION['form_submission_errors']);
         return $html;
@@ -265,15 +267,15 @@ class Validation extends Trongate {
         if (!isset($_SESSION['form_submission_errors'])) {
             return 'null';
         }
-        
+
         if (is_int($first_arg) && $first_arg >= 400 && $first_arg <= 499) {
             return 'json';
         }
-        
+
         if (isset($first_arg) && !isset($closing_html)) {
             return 'inline';
         }
-        
+
         return 'standard';
     }
 
@@ -287,13 +289,12 @@ class Validation extends Trongate {
 
         $errors_json = json_encode($_SESSION['form_submission_errors'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         $html = '<script>window.trongateValidationErrors = ' . $errors_json . ';</script>';
-        
+
         $trigger = defined('MODULE_ASSETS_TRIGGER') ? MODULE_ASSETS_TRIGGER : '_module';
         $js_url = BASE_URL . $this->module_name . $trigger . '/js/highlight_validation_errors.js';
-        
+
         $html .= '<script src="' . $js_url . '"></script>';
-        
+
         return $html;
     }
-
 }

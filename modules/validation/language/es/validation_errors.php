@@ -44,5 +44,8 @@ $validation_errors = [
     'upload_failed_error'        => 'La carga de [label] ha fallado. Por favor, inténtelo de nuevo.',
     'not_an_image_error'         => 'El archivo [label] debe ser una imagen válida (JPG, PNG, GIF o WEBP).',
     'invalid_file_error'         => 'El archivo [label] no es válido o está dañado.',
-    'security_threat_error'      => 'Se ha detectado una amenaza de seguridad en el archivo [label]. La carga ha sido bloqueada.'
+    'security_threat_error'      => 'Se ha detectado una amenaza de seguridad en el archivo [label]. La carga ha sido bloqueada.',
+
+    // Custom Rules
+    'title_check' => 'No puedes estar bromeando!'
 ];

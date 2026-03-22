@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tasks Controller
  *
@@ -85,7 +86,7 @@ class Tasks extends Trongate {
 
         if ($str === 'Johnny') {
             // Return the KEY. The framework will look this up in the language file.
-            return 'You cannot be serious'; 
+            return 'title_check';
         }
 
         return true;
@@ -125,5 +126,4 @@ class Tasks extends Trongate {
         set_flashdata('The task record was successfully deleted.');
         redirect('tasks/manage');
     }
-
 }
