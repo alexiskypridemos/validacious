@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Generates an HTML input element.
  *
@@ -60,6 +61,12 @@ function form_radio(string $name, string|bool|int $value = '', mixed $checked = 
  * @return string The generated HTML input element.
  */
 function form_input(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_input', $attributes);
 }
 
@@ -72,6 +79,12 @@ function form_input(string $name, ?string $value = null, array $attributes = [])
  * @return string The generated HTML input element.
  */
 function form_email(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_email', $attributes);
 }
 
@@ -84,6 +97,12 @@ function form_email(string $name, ?string $value = null, array $attributes = [])
  * @return string The generated HTML input element.
  */
 function form_password(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_password', $attributes);
 }
 
@@ -96,6 +115,12 @@ function form_password(string $name, ?string $value = null, array $attributes = 
  * @return string The generated HTML input element.
  */
 function form_search(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_search', $attributes);
 }
 
@@ -108,6 +133,12 @@ function form_search(string $name, ?string $value = null, array $attributes = []
  * @return string The generated HTML input element.
  */
 function form_number(string $name, string|int|float|null $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = (string) $value;
+    }
+
     return Modules::run('form/form_number', $attributes);
 }
 
@@ -132,7 +163,7 @@ function form_hidden(string $name, string|int|float|null $value = null, array $a
  * @return string The HTML opening tag for the form.
  */
 function form_open(string $location, array $attributes = []): string {
-    $data = ['location' => $location, 'method' => $method, 'attributes' => $attributes];
+    $data = ['location' => $location, 'attributes' => $attributes];
     return Modules::run('form/form_open', $data);
 }
 
@@ -171,13 +202,14 @@ function get_attributes_str($attributes): string {
  * Generate an HTML label element.
  *
  * @param string $label_text The text or HTML to be used as the label content.
+ * @param string|null $input_id The id of the input element to associate with the label. Default is null.
  * @param array $attributes An associative array of HTML attributes for the label element. Defaults to empty array.
  * @return string The generated HTML label element with attributes.
  *
  * Note: The label_text is not escaped by default. If using user-generated content,
  * ensure it is properly sanitized before passing it to this function.
  */
-function form_label(string $label_text, array $attributes = []): string {
+function form_label(string $label_text, ?string $input_id = null, array $attributes = []): string {
     $data = ['label_text' => $label_text, 'input_id' => $input_id, 'attributes' => $attributes];
     return Modules::run('form/form_label', $data);
 }
@@ -191,6 +223,12 @@ function form_label(string $label_text, array $attributes = []): string {
  * @return string The generated HTML textarea element.
  */
 function form_textarea(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_textarea', $attributes);
 }
 
@@ -203,6 +241,12 @@ function form_textarea(string $name, ?string $value = null, array $attributes = 
  * @return string The generated HTML input element.
  */
 function form_date(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_date', $attributes);
 }
 
@@ -215,6 +259,12 @@ function form_date(string $name, ?string $value = null, array $attributes = []):
  * @return string The generated HTML input element.
  */
 function form_datetime_local(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_datetime_local', $attributes);
 }
 
@@ -227,6 +277,12 @@ function form_datetime_local(string $name, ?string $value = null, array $attribu
  * @return string The generated HTML input element.
  */
 function form_time(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_time', $attributes);
 }
 
@@ -239,6 +295,12 @@ function form_time(string $name, ?string $value = null, array $attributes = []):
  * @return string The generated HTML input element.
  */
 function form_month(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_month', $attributes);
 }
 
@@ -251,6 +313,12 @@ function form_month(string $name, ?string $value = null, array $attributes = [])
  * @return string The generated HTML input element.
  */
 function form_week(string $name, ?string $value = null, array $attributes = []): string {
+    $attributes['name'] = $name;
+
+    if ($value !== null) {
+        $attributes['value'] = $value;
+    }
+
     return Modules::run('form/form_week', $attributes);
 }
 
@@ -266,7 +334,8 @@ function form_week(string $name, ?string $value = null, array $attributes = []):
  * ensure it is properly sanitized before passing it to this function.
  */
 function form_submit(string $name, ?string $value = null, array $attributes = []): string {
-    $data = ['submit_value' => $submit_value, 'attributes' => $attributes];
+    $attributes['name'] = $name;
+    $data = ['submit_value' => $value, 'attributes' => $attributes];
     return Modules::run('form/form_submit', $data);
 }
 
@@ -282,7 +351,7 @@ function form_submit(string $name, ?string $value = null, array $attributes = []
  * ensure it is properly sanitized before passing it to this function.
  */
 function form_button(string $name, ?string $value = null, array $attributes = []): string {
-    $data = ['button_value' => $button_value, 'attributes' => $attributes];
+    $data = ['button_value' => $value, 'attributes' => $attributes];
     return Modules::run('form/form_button', $data);
 }
 
@@ -298,7 +367,7 @@ function form_button(string $name, ?string $value = null, array $attributes = []
  * Note: Ensure proper sanitization of user-generated content passed to this function.
  */
 function form_dropdown(string $name, array $options, string|int|null $selected_key = null, array $attributes = []): string {
-    $data = ['name' => $name, 'options' => $options, 'selected' => $selected, 'attributes' => $attributes];
+    $data = ['name' => $name, 'options' => $options, 'selected' => $selected_key, 'attributes' => $attributes];
     return Modules::run('form/form_dropdown', $data);
 }
 
