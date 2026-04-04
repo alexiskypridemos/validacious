@@ -438,7 +438,7 @@ class Form extends Trongate {
         $attributes['type'] = 'submit';
         $attributes['value'] = $submit_value;
         
-        $html = '<input' . $this->get_attributes_str($attributes) . '>';
+        $html = '<button' . $this->get_attributes_str($attributes) . '>' . $submit_value . '</button>';
         
         return $html;
     }
